@@ -1,0 +1,110 @@
+---
+---
+
+<div id="cv-popup" class="fixed bottom-6 right-6 z-50 opacity-0 transition-opacity duration-500 ease-out" style="display: none;">
+	<div class="bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-blue-200/50 p-6 max-w-sm animate-popup-appear">
+		<!-- En-tête avec icône -->
+		<div class="flex items-start gap-4 mb-4">
+			<div class="w-12 h-12 rounded-xl bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center shrink-0 shadow-lg">
+				<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+				</svg>
+			</div>
+			<div class="flex-1">
+				<h3 class="text-lg font-bold text-gray-900 font-['Space_Grotesk'] mb-1">
+					Télécharger mon CV
+				</h3>
+				<p class="text-sm text-gray-600">
+					Consultez mon parcours et mes compétences
+				</p>
+			</div>
+		</div>
+		
+		<!-- Bouton de téléchargement -->
+		<a 
+			href="/cv.pdf" 
+			download
+			class="w-full bg-linear-to-r from-blue-600 via-cyan-500 to-blue-700 text-white text-center py-3 px-6 rounded-xl font-medium hover:shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
+		>
+			<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+			</svg>
+			Télécharger le CV
+		</a>
+		
+		<!-- Note optionnelle -->
+		<p class="text-xs text-gray-500 text-center mt-3">
+			Format PDF • Dernière mise à jour : 2026
+		</p>
+	</div>
+</div>
+
+<script>
+	const popup = document.getElementById('cv-popup');
+	
+	// Afficher la popup après un délai
+	function showPopup() {
+		if (popup) {
+			// Attendre que la page soit chargée
+			setTimeout(() => {
+				popup.classList.remove('opacity-0');
+				popup.classList.add('opacity-100');
+				popup.style.display = 'block';
+			}, 3000); // Apparaît après 3 secondes
+		}
+	}
+	
+	// Attendre que le DOM soit prêt
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', showPopup);
+	} else {
+		showPopup();
+	}
+</script>
+
+<style>
+	@keyframes popup-appear {
+		0% {
+			transform: translateY(20px) scale(0.95);
+			opacity: 0;
+		}
+		100% {
+			transform: translateY(0) scale(1);
+			opacity: 1;
+		}
+	}
+	
+	.animate-popup-appear {
+		animation: popup-appear 0.5s ease-out forwards;
+	}
+	
+	/* Animation de rebond subtil */
+	#cv-popup {
+		animation: bounce-in 0.6s ease-out;
+	}
+	
+	@keyframes bounce-in {
+		0% {
+			transform: translateY(100px) scale(0.8);
+			opacity: 0;
+		}
+		60% {
+			transform: translateY(-10px) scale(1.05);
+			opacity: 1;
+		}
+		100% {
+			transform: translateY(0) scale(1);
+			opacity: 1;
+		}
+	}
+	
+	/* Responsive */
+	@media (max-width: 640px) {
+		#cv-popup {
+			bottom: 1rem;
+			right: 1rem;
+			left: 1rem;
+			max-width: none;
+		}
+	}
+</style>

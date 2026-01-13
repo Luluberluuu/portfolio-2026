@@ -1,0 +1,69 @@
+---
+interface Props {
+	title?: string;
+	id?: string;
+	className?: string;
+	number?: number;
+}
+
+const { title, id, className = "", number } = Astro.props;
+---
+
+<section id={id} class={`py-20 px-4 bg-white/60 backdrop-blur-sm border-y border-blue-100/30 relative overflow-hidden ${className}`}>
+	<!-- Fond quadrillé -->
+	<div class="absolute inset-0 opacity-20">
+		<div class="absolute inset-0" style="background-image: 
+			linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+			background-size: 40px 40px;"></div>
+	</div>
+	
+	<!-- Fond décoratif subtil -->
+	<div class="absolute inset-0 opacity-20">
+		<div class="absolute top-0 left-1/4 w-64 h-64 bg-blue-200/20 rounded-full blur-3xl"></div>
+		<div class="absolute bottom-0 right-1/4 w-64 h-64 bg-cyan-200/20 rounded-full blur-3xl"></div>
+	</div>
+	
+	<div class="max-w-6xl mx-auto relative z-10">
+		{title && (
+			<div class="mb-16 relative">
+				<!-- Ligne décorative en haut -->
+				<div class="flex items-center justify-center mb-6">
+					<div class="h-px w-12 md:w-20 bg-linear-to-r from-transparent via-blue-400/50 to-transparent"></div>
+					<div class="mx-3 md:mx-4 w-2 h-2 rounded-full bg-blue-500/60 animate-pulse"></div>
+					<div class="h-px flex-1 max-w-md bg-linear-to-r from-blue-400/40 via-cyan-400/50 to-transparent"></div>
+					<div class="mx-3 md:mx-4 w-1.5 h-1.5 rounded-full bg-cyan-400/60"></div>
+					<div class="h-px w-12 md:w-20 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent"></div>
+				</div>
+				
+				<!-- Titre avec numéro -->
+				<div class="relative text-center">
+					{number && (
+						<div class="absolute -top-8 left-1/2 transform -translate-x-1/2 -z-10">
+							<span class="text-6xl md:text-7xl lg:text-8xl font-bold text-blue-100/25 font-['Space_Grotesk'] select-none tracking-tighter">
+								{String(number).padStart(2, '0')}
+							</span>
+						</div>
+					)}
+					<h2 class="relative text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 font-['Space_Grotesk'] inline-block tracking-tight">
+						<span class="relative z-10 inline-block">
+							<span class="bg-linear-to-r from-blue-600 via-cyan-500 to-blue-700 bg-clip-text text-transparent">
+								{title}
+							</span>
+						</span>
+					</h2>
+				</div>
+				
+				<!-- Ligne décorative en bas -->
+				<div class="flex items-center justify-center mt-6">
+					<div class="h-px w-12 md:w-20 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent"></div>
+					<div class="mx-3 md:mx-4 w-1.5 h-1.5 rounded-full bg-cyan-400/60"></div>
+					<div class="h-px flex-1 max-w-md bg-linear-to-r from-transparent via-cyan-400/50 to-blue-400/40"></div>
+					<div class="mx-3 md:mx-4 w-2 h-2 rounded-full bg-blue-500/60 animate-pulse" style="animation-delay: 0.5s;"></div>
+					<div class="h-px w-12 md:w-20 bg-linear-to-r from-transparent via-blue-400/50 to-transparent"></div>
+				</div>
+			</div>
+		)}
+		<slot />
+	</div>
+</section>

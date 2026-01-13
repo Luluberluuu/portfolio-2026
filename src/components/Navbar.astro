@@ -1,0 +1,176 @@
+---
+const navItems = [
+	{ label: "Accueil", href: "#hero" },
+	{ label: "À propos", href: "#a-propos" },
+	{ label: "Compétences", href: "#competences" },
+	{ label: "Parcours", href: "#parcours" },
+	{ label: "Projets", href: "#projets" },
+];
+---
+
+<div id="navbar-container" class="absolute top-0 left-0 right-0 z-50 px-4 pt-4 transition-all duration-300 ease-in-out">
+	<nav id="navbar" class="max-w-6xl mx-auto">
+		<div class="flex items-center justify-between h-16 px-6">
+			<a href="#hero" class="text-xl font-bold bg-linear-to-r from-blue-600 via-cyan-500 to-blue-700 bg-clip-text text-transparent font-['Space_Grotesk']">
+				Portfolio
+			</a>
+			<ul class="hidden md:flex items-center gap-2">
+				{navItems.map((item) => (
+					<li>
+						<a 
+							href={item.href}
+							class="text-gray-700 hover:text-blue-600 transition-all duration-200 font-medium text-sm px-4 py-2 rounded-lg hover:bg-blue-50/80"
+						>
+							{item.label}
+						</a>
+					</li>
+				))}
+				<li>
+					<a 
+						href="/cv.pdf" 
+						download
+						class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md"
+					>
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+						</svg>
+						CV
+					</a>
+				</li>
+			</ul>
+			<!-- Menu mobile -->
+			<button 
+				id="mobile-menu-button"
+				class="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"
+				aria-label="Menu"
+			>
+				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+				</svg>
+			</button>
+		</div>
+		<!-- Menu mobile -->
+		<div id="mobile-menu" class="hidden md:hidden bg-white/80 backdrop-blur-lg border-t border-blue-200/50 rounded-b-xl">
+			<ul class="px-4 py-4 space-y-2">
+				{navItems.map((item) => (
+					<li>
+						<a 
+							href={item.href}
+							class="block text-gray-700 hover:text-blue-600 transition-all duration-200 font-medium py-2 px-3 rounded-lg hover:bg-blue-50/80"
+						>
+							{item.label}
+						</a>
+					</li>
+				))}
+				<li>
+					<a 
+						href="/cv.pdf" 
+						download
+						class="flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all duration-200"
+					>
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+						</svg>
+						Télécharger mon CV
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</div>
+
+<script>
+	// Toggle menu mobile
+	const menuButton = document.getElementById('mobile-menu-button');
+	const mobileMenu = document.getElementById('mobile-menu');
+	
+	if (menuButton && mobileMenu) {
+		menuButton.addEventListener('click', () => {
+			mobileMenu.classList.toggle('hidden');
+		});
+		
+		// Fermer le menu quand on clique sur un lien
+		const mobileLinks = mobileMenu.querySelectorAll('a');
+		mobileLinks.forEach(link => {
+			link.addEventListener('click', () => {
+				mobileMenu.classList.add('hidden');
+			});
+		});
+	}
+
+	// Effet au scroll pour la navbar
+	const navbarContainer = document.getElementById('navbar-container');
+	const navbar = document.getElementById('navbar');
+	let lastScroll = 0;
+
+	function handleScroll() {
+		const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+		
+		if (currentScroll > 100) {
+			// Ajouter l'effet sticky avec backdrop blur
+			navbarContainer?.classList.add('navbar-scrolled');
+			navbar?.classList.add('navbar-scrolled');
+		} else {
+			// Retirer l'effet quand on est en haut
+			navbarContainer?.classList.remove('navbar-scrolled');
+			navbar?.classList.remove('navbar-scrolled');
+		}
+		
+		lastScroll = currentScroll;
+	}
+
+	// Utiliser requestAnimationFrame pour de meilleures performances
+	let ticking = false;
+	window.addEventListener('scroll', () => {
+		if (!ticking) {
+			window.requestAnimationFrame(() => {
+				handleScroll();
+				ticking = false;
+			});
+			ticking = true;
+		}
+	});
+
+	// Vérifier la position initiale au chargement
+	handleScroll();
+</script>
+
+<style>
+	#navbar-container {
+		position: absolute;
+	}
+
+	#navbar {
+		background: transparent;
+		border-radius: 0;
+	}
+
+	#navbar-container.navbar-scrolled {
+		position: fixed;
+		top: 1rem;
+		left: 1rem;
+		right: 1rem;
+		padding: 0;
+	}
+
+	#navbar.navbar-scrolled {
+		background: rgba(255, 255, 255, 0.85);
+		backdrop-filter: blur(20px) saturate(180%);
+		border: 1px solid rgba(59, 130, 246, 0.2);
+		border-radius: 1rem;
+		box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.15), 0 4px 16px 0 rgba(0, 0, 0, 0.1);
+	}
+
+	@media (max-width: 768px) {
+		#navbar-container.navbar-scrolled {
+			left: 0.5rem;
+			right: 0.5rem;
+			top: 0.5rem;
+		}
+	}
+
+	nav a {
+		position: relative;
+	}
+	
+</style>

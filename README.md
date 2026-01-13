@@ -1,46 +1,73 @@
-# Astro Starter Kit: Basics
+# Portfolio 2026
 
-```sh
-npm create astro@latest -- --template basics
+Portfolio moderne et élégant construit avec **Astro** et **Tailwind CSS**.
+
+## ✨ Caractéristiques
+
+- 🎨 Design moderne avec palette de couleurs bleutée
+- 📱 Entièrement responsive
+- ⚡ Performance optimale grâce à Astro
+- 🎭 Animations au scroll fluides
+- 🌈 Effets de blur et transparence
+- 📄 Popup de téléchargement CV
+- 🎯 Navigation sticky avec effet au scroll
+
+## 🚀 Technologies utilisées
+
+- [Astro](https://astro.build) - Framework web moderne
+- [Tailwind CSS](https://tailwindcss.com) - Framework CSS utilitaire
+- TypeScript - Typage statique
+- Google Fonts (Space Grotesk & Inter) - Typographies modernes
+
+## 📦 Installation
+
+```bash
+# Installer les dépendances
+npm install
+
+# Lancer le serveur de développement
+npm run dev
+
+# Build pour la production
+npm run build
+
+# Prévisualiser le build
+npm run preview
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 📁 Structure du projet
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
+```
 /
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+├── public/          # Assets statiques (favicon, CV, etc.)
+├── src/
+│   ├── components/ # Composants Astro réutilisables
+│   ├── layouts/    # Layouts de page
+│   ├── pages/       # Pages du site
+│   └── styles/     # Styles globaux
 └── package.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 🎨 Sections
 
-## 🧞 Commands
+- **Hero** : Section d'accueil avec animation de gradient
+- **À propos** : Présentation personnelle
+- **Compétences** : Technologies maîtrisées avec icônes SVG
+- **Parcours** : Expériences professionnelles (timeline)
+- **Cursus** : Formation académique (timeline)
+- **Projets** : Portfolio de projets
+- **Contact** : Informations de contact
 
-All commands are run from the root of the project, from a terminal:
+## 📝 Notes
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- Placez votre fichier CV dans `public/cv.pdf` pour le téléchargement
+- Personnalisez les données dans `src/pages/index.astro`
+- Les couleurs peuvent être ajustées dans les composants
 
-## 👀 Want to learn more?
+## 📄 Licence
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Ce projet est sous licence MIT.
+
+---
+
+Construit avec ❤️ et Astro
