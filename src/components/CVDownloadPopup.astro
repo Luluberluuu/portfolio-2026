@@ -18,11 +18,20 @@
 					Consultez mon parcours et mes compétences
 				</p>
 			</div>
+			<button 
+				id="close-popup"
+				class="text-gray-400 hover:text-gray-600 transition-colors p-1"
+				aria-label="Fermer"
+			>
+				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+				</svg>
+			</button>
 		</div>
 		
 		<!-- Bouton de téléchargement -->
 		<a 
-			href="/cv.pdf" 
+			href="/CV_Luka_2026.pdf" 
 			download
 			class="w-full bg-linear-to-r from-blue-600 via-cyan-500 to-blue-700 text-white text-center py-3 px-6 rounded-xl font-medium hover:shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
 		>
@@ -41,6 +50,7 @@
 
 <script>
 	const popup = document.getElementById('cv-popup');
+	const closeBtn = document.getElementById('close-popup');
 	
 	// Afficher la popup après un délai
 	function showPopup() {
@@ -54,11 +64,36 @@
 		}
 	}
 	
-	// Attendre que le DOM soit prêt
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', showPopup);
-	} else {
-		showPopup();
+	// Fermer la popup
+	function closePopup() {
+		if (popup) {
+			popup.classList.remove('opacity-100');
+			popup.classList.add('opacity-0');
+			setTimeout(() => {
+				popup.style.display = 'none';
+			}, 500);
+		}
+	}
+	
+	// Vérifier si la popup a déjà été fermée (localStorage)
+	const popupClosed = localStorage.getItem('cv-popup-closed');
+	if (!popupClosed && popup) {
+		// Attendre que le DOM soit prêt
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', showPopup);
+		} else {
+			showPopup();
+		}
+	} else if (popup) {
+		popup.style.display = 'none';
+	}
+	
+	// Gérer la fermeture
+	if (closeBtn) {
+		closeBtn.addEventListener('click', () => {
+			localStorage.setItem('cv-popup-closed', 'true');
+			closePopup();
+		});
 	}
 </script>
 
