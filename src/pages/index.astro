@@ -19,43 +19,49 @@ const projects = [
 		title: "Portfolio",
 		description: "Mon nouveau portfolio 2026",
 		stack: "Astro, Tailwind CSS, JavaScript",
-		href: "#",
-		img: '',
+		href: "",
+		img: 'projet-portfolio.png',
+		gallery: [],
 	},
 	{
 		title: "Luluberland",
 		description: "Bibliothèque personnel de jeux vidéo, films et séries",
 		stack: "Laravel, HTML, Tailwind CSS, JavaScript, API RAWG et TMDB",
-		href: "#",
-		img: '',
+		href: "",
+		img: 'projet-actual1.png',
+		gallery: ['/projet-actual1.png', '/projet-actual2.png', '/projet-actual3.png', '/projet-actual4.png'],
 	},
 	{
 		title: "Actual Systemes",
 		description: "Plateforme de gestion de commandes, factures, devis et de consultations produits",
 		stack: "Laravel, HTML, Tailwind CSS, JavaScript",
-		href: "#",
+		href: "",
 		img: '',
+		gallery: [],
 	},
 	{
 		title: "Le choix de l'école",
 		description: "Plateforme de suivi d'étapes d'inscription pour les professeurs",
 		stack: "Laravel, HTML, Tailwind CSS, JavaScript",
-		href: "#",
+		href: "",
 		img: '',
+		gallery: [],
 	},
 	{
 		title: "Le deviseur Perraud",
 		description: "Deviseur en ligne pour des voyages en bus organisés par la société Perraud Voyages",
 		stack: "Laravel, HTML, Tailwind CSS, API Mappy",
-		href: "#",
+		href: "",
 		img: '',
+		gallery: [],
 	},
 	{
 		title: "Koesio TV",
 		description: "Application interne de gestion de médias (Vidéos, actus, météo, pub)",
 		stack: "Angular, HTML, Tailwind CSS, TypeScript",
-		href: "#",
+		href: "",
 		img: '',
+		gallery: [],
 	},
 	{
 		title: "Garden7",
@@ -63,6 +69,7 @@ const projects = [
 		stack: "Wordpress, Woocommerce, Elementor",
 		href: "https://garden7.fr/",
 		img: '',
+		gallery: [],
 	},
 	{
 		title: "Eldera",
@@ -70,6 +77,7 @@ const projects = [
 		stack: "Wordpress, Woocommerce, Elementor",
 		href: "https://eldera.net/",
 		img: '',
+		gallery: [],
 	},
 	{
 		title: "Huilerie Richard",
@@ -77,6 +85,7 @@ const projects = [
 		stack: "Wordpress, Woocommerce, Elementor",
 		href: "https://huilerie-richard.com/",
 		img: '',
+		gallery: [],
 	},
 	{
 		title: "Le choix de l'école",
@@ -84,6 +93,7 @@ const projects = [
 		stack: "Wordpress, Elementor, Dynamic Content",
 		href: "https://lechoixdelecole.org/",
 		img: '',
+		gallery: [],
 	},
 	{
 		title: "Actual Systèmes",
@@ -91,6 +101,7 @@ const projects = [
 		stack: "Wordpress, Elementor, Dynamic Content",
 		href: "https://actualsystemes.com/",
 		img: '',
+		gallery: [],
 	},
 	{
 		title: "Les vergers Boiron",
@@ -98,6 +109,7 @@ const projects = [
 		stack: "Wordpress, Elementor, Dynamic Content",
 		href: "https://les-vergers-boiron.com/",
 		img: '',
+		gallery: [],
 	},
 ];
 
@@ -400,6 +412,8 @@ const education = [
 						description={project.description}
 						stack={project.stack}
 						href={project.href}
+						image={project.img}
+						gallery={project.gallery}
 					/>
 				</ScrollAnimation>
 			))}

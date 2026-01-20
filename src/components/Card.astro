@@ -5,41 +5,199 @@ interface Props {
 	stack?: string;
 	href?: string;
 	image?: string;
+	gallery?: string[];
 }
 
-const { title, description, stack, href, image } = Astro.props;
+const { title, description, stack, href, image, gallery = [] } = Astro.props;
+
+// On combine l'image principale et la galerie pour le caroussel
+// On filtre pour éviter les valeurs vides
+const allImages = gallery.filter((img): img is string => !!img);
+
+// Générer un ID unique pour que le JS cible la bonne modale si on a plusieurs cartes
+const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
 ---
 
-<div class="group h-full">
+<div class="group h-full" id={cardId}>
+	{/* --- CAS 1 : AVEC LIEN (inchangé) --- */}
 	{href ? (
-		<a 
-			href={href} target="_blank"
-			class="h-full block bg-white/70 backdrop-blur-lg rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-blue-200/50 hover:border-blue-300/70"
-		>
-			{image && (
-				<div class="w-full h-48 mb-4 rounded-lg overflow-hidden bg-linear-to-br from-blue-400 via-cyan-400 to-blue-500">
-					<img src={image} alt={title} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-				</div>
-			)}
-			<h3 class="text-xl font-semibold mb-2 text-gray-900 group-hover:text-blue-600 transition-colors">{title}</h3>
-			{description && (
-				<p class="text-gray-600">{description}</p>
-				<p class="text-blue-600 text-xs">{stack}</p>
-			)}
-			<slot />
-		</a>
+	  <a 
+		href={href} target="_blank"
+		class="h-full block bg-white/70 backdrop-blur-lg rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-blue-200/50 hover:border-blue-300/70"
+	  >
+		{image && (
+		  <div class="w-full h-48 mb-4 rounded-lg overflow-hidden bg-linear-to-br from-blue-400 via-cyan-400 to-blue-500">
+			<img src={image} alt={title} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+		  </div>
+		)}
+		<h3 class="text-xl font-semibold mb-2 text-gray-900 group-hover:text-blue-600 transition-colors">{title}</h3>
+		{description && (
+		  <div class="flex flex-col gap-2">
+			<p class="text-gray-600">{description}</p>
+			<p class="text-blue-600 text-xs font-mono">{stack}</p>
+		  </div>
+		)}
+		<slot />
+	  </a>
 	) : (
-		<div class="bg-white/70 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-blue-200/50">
-			{image && (
-				<div class="w-full h-48 mb-4 rounded-lg overflow-hidden bg-linear-to-br from-blue-400 via-cyan-400 to-blue-500">
-					<img src={image} alt={title} class="w-full h-full object-cover" />
-				</div>
+	  /* --- CAS 2 : SANS LIEN (Avec Popup) --- */
+	  <div class="h-full block bg-white/70 backdrop-blur-lg rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-blue-200/50 hover:border-blue-300/70">
+		
+		{image && (
+		  // Bouton pour ouvrir la modale
+		  <button 
+			type="button"
+			class="w-full h-48 mb-4 rounded-lg overflow-hidden bg-linear-to-br from-blue-400 via-cyan-400 to-blue-500 cursor-zoom-in relative group/img"
+			data-open-modal
+		  >
+			<img src={image} alt={title} class="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-500" />
+			
+			{/* Indicateur visuel qu'on peut cliquer */}
+			<div class="absolute inset-0 bg-black/0 group-hover/img:bg-black/20 transition-colors flex items-center justify-center">
+			   <span class="opacity-0 group-hover/img:opacity-100 text-white font-medium px-3 py-1 bg-black/50 rounded-full backdrop-blur-sm transition-opacity">
+				  Voir la galerie
+			   </span>
+			</div>
+		  </button>
+		)}
+  
+		<h3 class="text-xl font-semibold mb-2 text-gray-900 group-hover:text-blue-600 transition-colors">{title}</h3>
+		{description && (
+		  <div class="flex flex-col gap-2">
+			<p class="text-gray-600">{description}</p>
+			<p class="text-blue-600 text-xs font-mono">{stack}</p>
+		  </div>
+		)}
+		<slot />
+  
+		{/* --- LA MODALE (Cachée par défaut) --- */}
+		{allImages.length > 0 && (
+		  <dialog class="modal-dialog justify-center fixed inset-0 z-50 w-full h-full bg-black/80 backdrop-blur-sm p-0 m-0 hidden place-items-center opacity-0 transition-opacity duration-300">
+			
+			{/* Bouton Fermer */}
+			<button class="close-modal absolute top-4 right-4 text-white hover:text-blue-400 z-50 p-2">
+			  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+			  </svg>
+			</button>
+  
+			{/* Conteneur Image + Navigation */}
+			<div class="relative w-3/4 max-h-screen flex items-center justify-center px-4">
+			  
+			  {/* Bouton Précédent (affiché seulement si plusieurs images) */}
+			  {allImages.length > 1 && (
+				<button class="prev-btn absolute left-4 md:left-0 text-white hover:text-blue-400 p-2 bg-black/50 hover:bg-black/70 rounded-full backdrop-blur-md transition-all">
+				  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+				  </svg>
+				</button>
+			  )}
+  
+			  {/* L'image affichée */}
+			  <img 
+				id={`img-${cardId}`}
+				src={allImages[0]} 
+				alt={title} 
+				class="max-h-[85vh] max-w-full object-contain rounded-lg shadow-2xl"
+			  />
+  
+			  {/* Bouton Suivant */}
+			  {allImages.length > 1 && (
+				<button class="next-btn absolute right-4 md:right-0 text-white hover:text-blue-400 p-2 bg-black/50 hover:bg-black/70 rounded-full backdrop-blur-md transition-all">
+				  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+				  </svg>
+				</button>
+			  )}
+			</div>
+			
+			{/* Compteur (ex: 1/4) */}
+			{allImages.length > 1 && (
+			   <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 font-mono text-sm bg-black/50 px-3 py-1 rounded-full">
+				  <span class="current-index">1</span> / {allImages.length}
+			   </div>
 			)}
-			<h3 class="text-xl font-semibold mb-2 text-gray-900">{title}</h3>
-			{description && (
-				<p class="text-gray-600">{description}</p>
-			)}
-			<slot />
-		</div>
+		  </dialog>
+		)}
+	  </div>
 	)}
-</div>
+  </div>
+  
+  <script define:vars={{ cardId, allImages }}>
+	// Logique isolée pour cette carte spécifique
+	const container = document.getElementById(cardId);
+	if (!container) return; // Sécurité
+  
+	const modal = container.querySelector('.modal-dialog');
+	const openBtn = container.querySelector('[data-open-modal]');
+	const closeBtn = container.querySelector('.close-modal');
+	const prevBtn = container.querySelector('.prev-btn');
+	const nextBtn = container.querySelector('.next-btn');
+	const imgElement = document.getElementById(`img-${cardId}`);
+	const counterElement = container.querySelector('.current-index');
+  
+	let currentIndex = 0;
+  
+	// Fonction de mise à jour de l'image
+	const updateImage = () => {
+	  if(imgElement) {
+		  imgElement.src = allImages[currentIndex];
+		  // Petit effet de fade rapide
+		  imgElement.style.opacity = '0.5';
+		  setTimeout(() => imgElement.style.opacity = '1', 150);
+	  }
+	  if (counterElement) {
+		  counterElement.textContent = currentIndex + 1;
+	  }
+	};
+  
+	// Ouverture
+	if (openBtn && modal) {
+	  openBtn.addEventListener('click', () => {
+		modal.classList.remove('hidden');
+		modal.showModal(); // Utilisation API native dialog
+		// Petit délai pour l'animation CSS
+		requestAnimationFrame(() => {
+		  modal.classList.remove('opacity-0');
+		  modal.classList.add('flex');
+		});
+	  });
+	}
+  
+	// Fermeture
+	const closeModal = () => {
+	  if (!modal) return;
+	  modal.classList.add('opacity-0');
+	  setTimeout(() => {
+		  modal.close();
+		  modal.classList.add('hidden');
+		  modal.classList.remove('flex');
+	  }, 300);
+	};
+  
+	if (closeBtn) closeBtn.addEventListener('click', closeModal);
+	
+	// Fermer si on clique en dehors de l'image (sur le fond)
+	if (modal) {
+		modal.addEventListener('click', (e) => {
+		  if (e.target === modal) closeModal();
+		});
+	}
+  
+	// Navigation
+	if (nextBtn) {
+	  nextBtn.addEventListener('click', (e) => {
+		  e.stopPropagation();
+		  currentIndex = (currentIndex + 1) % allImages.length;
+		  updateImage();
+	  });
+	}
+  
+	if (prevBtn) {
+	  prevBtn.addEventListener('click', (e) => {
+		  e.stopPropagation();
+		  currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+		  updateImage();
+	  });
+	}
+  </script>
