@@ -47,10 +47,10 @@ const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
 		  // Bouton pour ouvrir la modale
 		  <button 
 			type="button"
-			class="w-full h-48 mb-4 rounded-lg overflow-hidden bg-linear-to-br from-blue-400 via-cyan-400 to-blue-500 cursor-zoom-in relative group/img"
+			class="w-full h-48 mb-4 rounded-xl overflow-hidden bg-linear-to-br  cursor-zoom-in relative group/img"
 			data-open-modal
 		  >
-			<img src={image} alt={title} class="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-500" />
+			<img src={image} alt={title} class="w-full h-full rounded-xl object-cover border border-gray-300 group-hover/img:scale-110 transition-transform duration-500" />
 			
 			{/* Indicateur visuel qu'on peut cliquer */}
 			<div class="absolute inset-0 bg-black/0 group-hover/img:bg-black/20 transition-colors flex items-center justify-center">
@@ -72,7 +72,7 @@ const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
   
 		{/* --- LA MODALE (Cachée par défaut) --- */}
 		{allImages.length > 0 && (
-		  <dialog class="modal-dialog justify-center fixed inset-0 z-50 w-full h-full bg-black/80 backdrop-blur-sm p-0 m-0 hidden place-items-center opacity-0 transition-opacity duration-300">
+		  <dialog class="modal-dialog max-w-none max-h-none bottom-0 justify-center fixed inset-0 z-50 w-full h-screen bg-black/80 backdrop-blur-sm p-0 m-0 hidden place-items-center opacity-0 transition-opacity duration-300">
 			
 			{/* Bouton Fermer */}
 			<button class="close-modal absolute top-4 right-4 text-white hover:text-blue-400 z-50 p-2">
@@ -82,7 +82,7 @@ const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
 			</button>
   
 			{/* Conteneur Image + Navigation */}
-			<div class="relative w-3/4 max-h-screen flex items-center justify-center px-4">
+			<div class="relative w-5/6 max-h-screen flex items-center justify-center px-4">
 			  
 			  {/* Bouton Précédent (affiché seulement si plusieurs images) */}
 			  {allImages.length > 1 && (
